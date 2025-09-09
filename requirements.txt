@@ -1,0 +1,11 @@
+# OpenAI
+openai>=1.0.0
+
+# Env vars
+python-dotenv
+
+# API framework
+fastapi
+
+# Server to run FastAPI
+uvicorn[standard]
