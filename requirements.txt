@@ -9,3 +9,6 @@ fastapi
 
 # Server to run FastAPI
 uvicorn[standard]
+
+# HTTP requests
+requests
