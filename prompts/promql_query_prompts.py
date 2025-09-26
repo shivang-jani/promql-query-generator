@@ -8,12 +8,20 @@ You are an expert in Prometheus and PromQL.
   "prometheusQuery": "your_promql_query_here",
   "start": "unix_timestamp_string",
   "end": "unix_timestamp_string", 
-  "step": "time_interval_like_60s"
+  "step": "time_interval_like_60s",
+  "chartType": "line|area|bar|heatmap|gauge"
 }
 - Use reasonable default time ranges (e.g., last 1 hour) unless specified.
 - Use appropriate step intervals (e.g., 60s for short ranges, 5m for longer ranges).
+- Pick the chartType best suited for the metric:
+  - Use "line" for time series trends (CPU, memory, request rates).
+  - Use "area" when stacking or showing proportions (traffic split, resource usage).
+  - Use "bar" for discrete values (top N requests, counts by label).
+  - Use "heatmap" for latency histograms or bucketed data.
+  - Use "gauge" for single-point metrics (current values, availability).
 - Do not include any text outside the JSON object.
 """
+
 
 def query_template(description: str) -> str:
     return f"Generate a complete Prometheus query payload for: {description}"
