@@ -8,3 +8,7 @@ class Config:
     OPENAI_API_KEY = os.getenv("OPEN_AI_KEY")
     OPENAI_MODEL_NAME = os.getenv("OPEN_AI_MODEL_NAME","gpt-4.1-mini")
     PROMETHEUS_CONNECTOR_URL = os.getenv("PROMETHEUS_CONNECTOR_URL")
+    
+    # MongoDB Configuration
+    MONGODB_URI = os.getenv("MONGODB_URI")
+    MONGODB_DATABASE_NAME = os.getenv("MONGODB_DATABASE_NAME")

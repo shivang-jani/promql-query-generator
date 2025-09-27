@@ -12,3 +12,6 @@ uvicorn[standard]
 
 # HTTP requests
 requests
+
+# MongoDB
+pymongo

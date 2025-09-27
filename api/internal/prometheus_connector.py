@@ -6,7 +6,7 @@ class PrometheusClient:
     def __init__(self):
         self.base_url = Config.PROMETHEUS_CONNECTOR_URL
 
-    def fetch_prometheus_data(self, payload: dict):
+    def fetch_prometheus_data(self, payload: dict, conversation_id: str = None):
         """
         Calls the internal Prometheus connector API with the given payload.
 
@@ -16,6 +16,7 @@ class PrometheusClient:
                             - start
                             - end
                             - step
+            conversation_id (str): Optional conversation ID to include in the payload
 
         Returns:
             dict: Response JSON from Prometheus connector API
@@ -24,6 +25,10 @@ class PrometheusClient:
             RuntimeError: If request fails or returns non-2xx response
         """
         url = f"{self.base_url}/prometheusData"
+
+        # Add conversationId to payload if provided
+        if conversation_id:
+            payload["conversationId"] = conversation_id
 
         try:
             response = requests.post(url, json=payload, timeout=10)
