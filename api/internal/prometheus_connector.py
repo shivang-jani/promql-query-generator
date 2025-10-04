@@ -1,5 +1,7 @@
 import requests 
 from config import Config
+import time
+from datetime import datetime
 
 
 class PrometheusClient:
@@ -30,10 +32,30 @@ class PrometheusClient:
         if conversation_id:
             payload["conversationId"] = conversation_id
 
+        print(f"[{datetime.now().isoformat()}] Prometheus Connector API Request")
+        print(f"URL: {url}")
+        print(f"Conversation ID: {conversation_id}")
+        print(f"Payload: {payload}")
+
         try:
+            start_time = time.time()
             response = requests.post(url, json=payload, timeout=10)
+            response_time = time.time() - start_time
+            
             response.raise_for_status()
-            return response.json()
+            response_data = response.json()
+            
+            print(f"[{datetime.now().isoformat()}] Prometheus Connector API Response")
+            print(f"Status Code: {response.status_code}")
+            print(f"Response Time: {response_time:.2f}s")
+            print(f"Response Size: {len(str(response_data))} characters")
+            print(f"Response Data: {response_data}")
+            
+            return response_data
 
         except requests.exceptions.RequestException as e:
+            print(f"[{datetime.now().isoformat()}] Prometheus Connector API Error")
+            print(f"Error: {str(e)}")
+            print(f"URL: {url}")
+            print(f"Payload: {payload}")
             raise RuntimeError(f"Failed to fetch data from Prometheus connector: {e}")

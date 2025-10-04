@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime
 from typing import Optional, Dict, Any
 import logging
+import time
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -42,7 +43,8 @@ class MongoDBClient:
                           natural_language_query: str,
                           generated_payload: Dict[Any, Any],
                           prometheus_data: Dict[Any, Any],
-                          success_status: int) -> bool:
+                          success_status: int,
+                          chart_config: Dict[Any, Any] = None) -> bool:
         """
         Store conversation data in MongoDB
         
@@ -52,6 +54,7 @@ class MongoDBClient:
             generated_payload: OpenAI generated payload
             prometheus_data: Prometheus response data
             success_status: HTTP status code (200, 404, 500, etc.)
+            chart_config: Chart configuration data (optional)
         
         Returns:
             bool: True if successful, False otherwise
@@ -61,6 +64,7 @@ class MongoDBClient:
                 "conversationId": conversation_id,
                 "naturalLanguageQuery": natural_language_query,
                 "generatedPayload": generated_payload,
+                "chartConfig": chart_config or {},
                 "prometheusData": prometheus_data,
                 "timestamp": datetime.utcnow().isoformat(),
                 "success": success_status

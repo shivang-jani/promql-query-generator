@@ -6,21 +6,31 @@ You are an expert in Prometheus and PromQL.
 - Return ONLY a valid JSON object with the following structure:
 {
   "prometheusQuery": "your_promql_query_here",
-  "start": "unix_timestamp_string",
-  "end": "unix_timestamp_string", 
+  "start": "current_unix_timestamp_in_seconds",
+  "end": "current_unix_timestamp_in_seconds_or_range_end",
   "step": "time_interval_like_60s",
-  "chartType": "line|area|bar|heatmap|gauge"
-}
+},
+  "chartConfig": {
+    "chartType": "choose_from_enum_values",
+    "chartLibrary": "recharts_or_plotly"
+  }
+
+- Use **current Unix timestamps** for start and end by default if not specified.
 - Use reasonable default time ranges (e.g., last 1 hour) unless specified.
 - Use appropriate step intervals (e.g., 60s for short ranges, 5m for longer ranges).
-- Pick the chartType best suited for the metric:
-  - Use "line" for time series trends (CPU, memory, request rates).
-  - Use "area" when stacking or showing proportions (traffic split, resource usage).
-  - Use "bar" for discrete values (top N requests, counts by label).
-  - Use "heatmap" for latency histograms or bucketed data.
-  - Use "gauge" for single-point metrics (current values, availability).
+- For chartConfig, choose the chartType from these enum values:
+  - "lineChart" (use with "recharts") for time series trends (CPU, memory, request rates)
+  - "barChart" (use with "recharts") for discrete values (top N requests, counts by label)
+  - "areaChart" (use with "recharts") when stacking or showing proportions (traffic split, resource usage)
+  - "gauge" (use with "plotly") for single-point metrics (current values, availability percentages)
+  - "heatmap" (use with "plotly") for latency histograms or bucketed data
+- Chart library mapping (MUST follow these exact mappings):
+  - recharts: lineChart, barChart, areaChart
+  - plotly: gauge, heatmap
 - Do not include any text outside the JSON object.
+- Ensure that start and end are **actual numeric Unix timestamps**, not placeholder strings.
 """
+
 
 
 def query_template(description: str) -> str:
